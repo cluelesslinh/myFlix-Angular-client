@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { catchError } from 'rxjs/internal/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, catchError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 //Declaring the api url that will provide data for the client app
@@ -34,7 +33,7 @@ export class FetchApiDataService {
           `Error body is: ${JSON.stringify(error.error)}`
       );
     }
-    return throwError('Something bad happened, please try again later. 💔');
+    return throwError('Something bad happened, please try again later.');
   }
 
   /**
