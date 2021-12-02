@@ -1,0 +1,36 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.nav-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: black;
+}
+
+.app-title {
+  font-size: 30px;
+  margin: 10px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.app-title:hover {
+  color: rgb(202, 191, 191);
+}
+
+button:hover {
+  color: rgb(202, 191, 191);
+}
+
+.profile {
+  font-size: 16px;
+  margin: 10px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}

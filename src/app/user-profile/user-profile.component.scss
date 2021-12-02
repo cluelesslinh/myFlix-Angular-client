@@ -1,0 +1,81 @@
+.profile-container {
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  margin: 20px auto;
+  max-width: 1300px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.favorite-container {
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  margin: 20px auto;
+  max-width: 1300px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.card-container {
+  display: grid;
+  margin-top: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: black;
+  box-shadow: 2px 2px 3px 2px rgb(196, 193, 193);
+  border-radius: 10px;
+  color: white;
+}
+
+.header-title {
+  justify-content: center;
+  text-align: center;
+  margin-top: 20px;;
+}
+
+h3 {
+  margin-left: 20px;
+}
+
+.update-delete {
+  margin-left: 20px;
+}
+
+button {
+  font-size: 1em;
+  font-weight: 500;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+button:hover {
+  color: rgb(202, 191, 191);
+}
+
+.title {
+  font-size: 1em;
+  line-height: 1em;
+}
+
+.director {
+  color: white;
+}
+
+.card-header {
+  justify-content: center;
+  text-align: center;
+}
+
+img {
+  width: 200px;
+  height: auto;
+  max-height: 350px;
+}

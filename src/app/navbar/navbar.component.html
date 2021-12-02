@@ -1,0 +1,38 @@
+<div class='navbar'>
+  <div class='nav-container' style="text-align: center;" >
+    <button
+      mat-button
+      class='app-title'
+      routerLink='/movies'
+      color='warn'
+    >
+      myFlix
+    </button>
+    <div class='nav-links'>
+      <button
+        mat-button
+        class='profile'
+        routerLink='/movies'
+        color='warn'
+      >
+        Movies
+      </button>
+      <button
+        mat-button
+        class='profile'
+        (click)='goToProfile()'
+        color='warn'
+      >
+        Profile
+      </button>
+      <button
+        mat-button
+        class='profile'
+        (click)='signOut()'
+        color='warn'
+      >
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
