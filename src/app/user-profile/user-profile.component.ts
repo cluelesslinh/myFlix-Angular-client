@@ -85,8 +85,8 @@ export class UserProfileComponent implements OnInit {
    * @param id
    * @param title
    */
-  deleteMovie(id: string, title: string): void {
-    this.fetchApiData.deleteMovie(id).subscribe((resp: any) => {
+  removeFromFavs(id: string, title: string): void {
+    this.fetchApiData.removeFromFav(id, title).subscribe((resp: any) => {
       this.snackBar.open(`${title} has been removed successfully!`, 'OK', {
         duration: 2000
       });

@@ -14,11 +14,11 @@ const user = localStorage.getItem('Name');
   templateUrl: './movie-card.component.html',
   styleUrls: ['./movie-card.component.scss']
 })
-export class MovieCardComponent {
+export class MovieCardComponent implements OnInit {
   user: any = {};
   favorites: any = [];
   movies: any[] = [];
-  favs: any[] = [];
+  favMovies: any[] = this.user.FavoriteMovies;
 
   constructor(
     public fetchApiData: FetchApiDataService,
@@ -49,11 +49,10 @@ export class MovieCardComponent {
   /**
    * to get users favorite movies
    */
-  getUsersFavs(): void {
+  getUsersFavs(): any {
     this.fetchApiData.getUser(user).subscribe((resp:any) => {
-      this.favs = resp.FavoriteMovies;
-      console.log(this.favs, 'favs');
-      return this.favs;
+      this.favMovies = resp.FavoriteMovies;
+      return this.favMovies;
     })
   }
 
@@ -95,50 +94,73 @@ export class MovieCardComponent {
     });
   }
 
-    /**
-   * adds the movie to the users favoritemovies array
-   * @param id (movie._id - unique identifier)
-   * @param title (movie title)
-   * @returns a status message - success/error
-   */
-  addToUserFavorites(id:string, title:string): void {
-    this.fetchApiData.addMovie(id).subscribe((resp: any) => {
-      this.snackBar.open(`${title} has been added to your favorites.`, 'OK', {
-        duration: 3000,
-      })
-      setTimeout(function() {
-        window.location.reload()}, 3000);
+  getUserFavs(): any {
+    this.fetchApiData.getFavMovies(this.user.Username).subscribe((res: any) => {
+      this.favMovies = res.Favorites;
+      return this.favMovies;
     });
-    return this.getUsersFavs();
   }
 
-   /**
-   * removes the movie from users favoritemovies array
-   * @param id (movie._id - unique identifier)
-   * @param title (movie title)
-   * @returns a status message - success/error
+  /**
+   * Adds a movie to the user's list of favorites
+   * @param movieId the id of the movie
+   * @param title the title of the movie
    */
-  removeFromUserFavorites(id:string, title:string): void {
-    this.fetchApiData.deleteMovie(id).subscribe((resp: any) => {
-      this.snackBar.open(`${title} has been removed from your favorites.`, 'OK', {
-        duration: 3000,
-      })
-      setTimeout(function() {
-        window.location.reload()}, 3000);
-    });
-    return this.getUsersFavs();
+  addToFavs(movieId: string, title: string): void {
+    this.fetchApiData
+      .addToFav(this.user.Username, movieId)
+      .subscribe((res: any) => {
+        this.snackBar.open(
+          `${title} has been added to your favorite movies! ✔️`,
+          'Cool',
+          {
+            duration: 2000,
+          }
+        );
+        this.ngOnInit();
+      });
+    return this.getUserFavs();
   }
 
-     /**
-   * Compares movie id's with getUsersFavs returned list to display the favorite movie icon (heart) correctly
-   * @param id
-   * @returns
+  /**
+   * Removes a movie from the user's list of favorites
+   * @param movieId the id of the movie
+   * @param title the title of the movie
    */
-   setFavStatus(id: any): any {
-    if (this.favs.includes(id)) {
-      return true;
-    } else {
-      return false;
-    }
+  removeFromFavs(movieId: string, title: string): void {
+    this.fetchApiData
+      .removeFromFav(this.user.Username, movieId)
+      .subscribe((res: any) => {
+        this.snackBar.open(
+          `${title} has been removed from your favorite movies ✔️`,
+          'Alright',
+          {
+            duration: 2000,
+          }
+        );
+        this.ngOnInit();
+      });
+    return this.getUserFavs();
+  }
+
+  /**
+   * Checks if a movie is included in the user's list of favorites
+   * @param movieId the id of the movie
+   * @returns true if the movie is in the list of favorites, false otherwhise
+   */
+  isFav(movieId: string): boolean {
+    return this.favMovies.some((movie) => movie._id === movieId);
+  }
+
+  /**
+   * Toggles the heart shaped icon from full to empty, and invokes the method to add or
+   * remove a function from the user's list of favorites
+   * @function toggleFavs
+   * @param movie the movie to add/remove to/from favs
+   */
+  toggleFavs(movie: any): void {
+    this.isFav(movie._id)
+      ? this.removeFromFavs(movie._id, movie.Title)
+      : this.addToFavs(movie._id, movie.Title);
   }
 }
