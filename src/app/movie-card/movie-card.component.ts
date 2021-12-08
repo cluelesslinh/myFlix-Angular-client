@@ -31,8 +31,11 @@ export class MovieCardComponent implements OnInit {
    * to get movies and favoritemovies when being initialized
    */
   ngOnInit(): void {
+    const username = localStorage.getItem("username");
     this.getMovies();
-    this.getUsersFavs();
+    if (username) {
+    this.getUsersFavs(username);
+   }
   }
 
   /**
@@ -49,8 +52,9 @@ export class MovieCardComponent implements OnInit {
   /**
    * to get users favorite movies
    */
-  getUsersFavs(): any {
-    this.fetchApiData.getUser(user).subscribe((resp:any) => {
+  getUsersFavs( username: string ): any {
+    this.fetchApiData.getUser(username).subscribe((resp:any) => {
+      this.user = resp;
       this.favMovies = resp.FavoriteMovies;
       return this.favMovies;
     })
@@ -94,8 +98,9 @@ export class MovieCardComponent implements OnInit {
     });
   }
 
-  getUserFavs(): any {
-    this.fetchApiData.getFavMovies(this.user.Username).subscribe((res: any) => {
+  getUserFavs( username: string ): any {
+    this.fetchApiData.getFavMovies(username).subscribe((res: any) => {
+      this.user = res;
       this.favMovies = res.Favorites;
       return this.favMovies;
     });
@@ -110,6 +115,7 @@ export class MovieCardComponent implements OnInit {
     this.fetchApiData
       .addToFav(this.user.Username, movieId)
       .subscribe((res: any) => {
+        this.favMovies = res.FavoriteMovies;
         this.snackBar.open(
           `${title} has been added to your favorite movies! ✔️`,
           'Cool',
@@ -117,9 +123,9 @@ export class MovieCardComponent implements OnInit {
             duration: 2000,
           }
         );
-        this.ngOnInit();
+      //  this.ngOnInit();
       });
-    return this.getUserFavs();
+    //return this.getUserFavs();
   }
 
   /**
@@ -131,6 +137,7 @@ export class MovieCardComponent implements OnInit {
     this.fetchApiData
       .removeFromFav(this.user.Username, movieId)
       .subscribe((res: any) => {
+        this.favMovies = res.FavoriteMovies;
         this.snackBar.open(
           `${title} has been removed from your favorite movies ✔️`,
           'Alright',
@@ -138,9 +145,9 @@ export class MovieCardComponent implements OnInit {
             duration: 2000,
           }
         );
-        this.ngOnInit();
+      //  this.ngOnInit();
       });
-    return this.getUserFavs();
+  //  return this.getUserFavs();
   }
 
   /**
@@ -149,7 +156,7 @@ export class MovieCardComponent implements OnInit {
    * @returns true if the movie is in the list of favorites, false otherwhise
    */
   isFav(movieId: string): boolean {
-    return this.favMovies.some((movie) => movie._id === movieId);
+    return this.favMovies.some((m) => m === movieId);
   }
 
   /**

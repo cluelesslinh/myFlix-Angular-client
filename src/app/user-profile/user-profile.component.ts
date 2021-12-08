@@ -18,7 +18,6 @@ import { ProfileUpdateComponent } from '../profile-update/profile-update.compone
 export class UserProfileComponent implements OnInit {
   @Input() userData = { Username: '', Password: '', Email: '', Birthday: '' };
 
-
   user: any = {};
   movies: any = {};
   favorites: any = {};
@@ -49,7 +48,7 @@ export class UserProfileComponent implements OnInit {
    * This method will get user details and array of user's favorite movies
    */
    getUserData(): void {
-    let user = localStorage.getItem('Name');
+    let user = localStorage.getItem('username');
     this.fetchApiData.getUser(user).subscribe((res: any) => {
       this.user = res;
     });

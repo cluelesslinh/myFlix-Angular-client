@@ -22,7 +22,7 @@ export class FetchApiDataService {
  // Making the api call for the user registration endpoint
   public userRegistration(userDetails: any): Observable<any> {
     console.log(userDetails);
-    return this.http.post(apiUrl + 'users/registration', userDetails).pipe(
+    return this.http.post(apiUrl + 'users/', userDetails).pipe(
     catchError(this.handleError)
     );
   }
@@ -165,13 +165,12 @@ export class FetchApiDataService {
     const token = localStorage.getItem('token');
     const response = this.http
       .post(
-        apiUrl + `users/:Username/movies/:MovieID`,
+        apiUrl + `users/${username}/movies/${movieId}`,
         {},
         {
           headers: new HttpHeaders({
             Authorization: 'Bearer ' + token,
           }),
-          responseType: 'text',
         }
       )
       .pipe(map(this.extractResponseData), catchError(this.handleError));
@@ -232,7 +231,6 @@ export class FetchApiDataService {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
         }),
-        responseType: 'text',
       }
     );
     return response.pipe(
