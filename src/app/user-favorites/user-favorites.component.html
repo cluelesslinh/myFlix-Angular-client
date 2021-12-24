@@ -1,0 +1,59 @@
+<div class="favorites-wrapper">
+  <h2>Your Favorite Movies</h2>
+  <div class="favorites">
+    <mat-card *ngFor="let movie of favMovies">
+      <mat-card-header>
+        <mat-card-title style="align-items: center">{{
+          movie.Title
+        }}</mat-card-title>
+        <mat-card-subtitle
+          >Directed by: {{ movie.Director.Name }}</mat-card-subtitle
+        >
+      </mat-card-header>
+      <mat-card-content
+        ><img src="{{ movie.ImagePath }}" alt="{{ movie.Title }}"
+      /></mat-card-content>
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="openGenreDialog(movie.Genre.Name, movie.Genre.Description)"
+        >
+          Genre
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="
+            openDirectorDialog(
+              movie.Director.Name,
+              movie.Director.Bio,
+              movie.Director.BirthDate,
+              movie.Director.DeathDate
+            )
+          "
+        >
+          Director
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="
+            openSynopsisDialog(
+              movie.Title,
+              movie.Description,
+              movie.ReleaseDate,
+              movie.Rating
+            )
+          "
+        >
+          Synopsis
+        </button>
+        <button mat-icon-button color="warn" (click)="toggleFavs(movie)">
+          <mat-icon *ngIf="isFav(movie._id)">favorite</mat-icon>
+          <mat-icon *ngIf="!isFav(movie._id)">favorite_border</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

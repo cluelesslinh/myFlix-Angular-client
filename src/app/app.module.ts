@@ -27,6 +27,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ProfileUpdateComponent } from './profile-update/profile-update.component';
 import { ProfileDeleteComponent } from './profile-delete/profile-delete.component';
+import { UserFavoritesComponent } from './user-favorites/user-favorites.component';
 
 const appRoutes: Routes = [
   { path: 'welcome', component: WelcomePageComponent },
@@ -34,6 +35,7 @@ const appRoutes: Routes = [
   { path: 'users', component: UserProfileComponent },
   { path: 'genres', component: GenreCardComponent },
   { path: 'directors', component: DirectorCardComponent },
+  { path: 'favorites', component: UserFavoritesComponent },
   { path: '', redirectTo: 'welcome', pathMatch: 'prefix' },
 ];
 
@@ -50,7 +52,8 @@ const appRoutes: Routes = [
     UserProfileComponent,
     NavbarComponent,
     ProfileUpdateComponent,
-    ProfileDeleteComponent
+    ProfileDeleteComponent,
+    UserFavoritesComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
