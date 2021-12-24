@@ -1,22 +1,14 @@
-app-user-favorites {
+#mat-dialog-0 {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
 }
-.favorites-wrapper {
-  h2 {
-    text-align: center;
-    padding-top: 60px;
-    @media screen and (max-width: 500px) {
-      padding-top: 20px;
-    }
-  }
-}
-.favorites {
+
+.movies-wrapper {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 20px 30px;
+  padding: 60px 30px;
   background-color: #202136;
   @media screen and (max-width: 500px) {
     padding: 0;
@@ -30,6 +22,7 @@ app-user-favorites {
   align-items: center;
   position: relative;
   padding: 40px;
+  color: white;
   background-color: #27273f;
   max-width: 300px;
   width: 300px;
@@ -50,3 +43,6 @@ app-user-favorites {
     width: 100%;
   }
 }
+  .mat-card-subtitle {
+    color: white;
+  }

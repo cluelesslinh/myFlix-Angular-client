@@ -25,8 +25,12 @@ export class NavbarComponent implements OnInit {
   /**
    * opens modal with user details
    */
-   movies(): void {
+  movies(): void {
     this.router.navigate(['movies']);
+  }
+
+  favorites(): void {
+    this.router.navigate(['favorites']);
   }
 
   /**

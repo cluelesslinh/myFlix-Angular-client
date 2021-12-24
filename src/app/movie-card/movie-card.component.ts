@@ -7,8 +7,6 @@ import { GenreCardComponent } from '../genre-card/genre-card.component';
 import { DirectorCardComponent } from '../director-card/director-card.component';
 import { SynopsisCardComponent } from '../synopsis-card/synopsis-card.component';
 
-const user = localStorage.getItem('Name');
-
 @Component({
   selector: 'app-movie-card',
   templateUrl: './movie-card.component.html',
@@ -42,8 +40,8 @@ export class MovieCardComponent implements OnInit {
    * to gets all movies
    */
   getMovies(): void {
-    this.fetchApiData.getAllMovies().subscribe((resp: any) => {
-      this.movies = resp;
+    this.fetchApiData.getAllMovies().subscribe((res: any) => {
+      this.movies = res;
       console.log(this.movies);
       return this.movies;
     });
@@ -53,9 +51,9 @@ export class MovieCardComponent implements OnInit {
    * to get users favorite movies
    */
   getUsersFavs( username: string ): any {
-    this.fetchApiData.getUser(username).subscribe((resp:any) => {
-      this.user = resp;
-      this.favMovies = resp.FavoriteMovies;
+    this.fetchApiData.getUser(username).subscribe((res:any) => {
+      this.user = res;
+      this.favMovies = res.FavoriteMovies;
       return this.favMovies;
     })
   }

@@ -22,6 +22,7 @@
   align-items: center;
   position: relative;
   padding: 40px;
+  color: white;
   background-color: #27273f;
   max-width: 300px;
   width: 300px;
@@ -42,3 +43,6 @@
     width: 100%;
   }
 }
+  .mat-card-subtitle {
+    color: white;
+  }
