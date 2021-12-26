@@ -13,6 +13,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 import { UserLoginFormComponent } from './user-login-form/user-login-form.component';
 import { MovieCardComponent } from './movie-card/movie-card.component';
@@ -31,11 +34,9 @@ import { UserFavoritesComponent } from './user-favorites/user-favorites.componen
 
 const appRoutes: Routes = [
   { path: 'welcome', component: WelcomePageComponent },
-  { path: 'movies', component: MovieCardComponent },
-  { path: 'users', component: UserProfileComponent },
-  { path: 'genres', component: GenreCardComponent },
-  { path: 'directors', component: DirectorCardComponent },
-  { path: 'favorites', component: UserFavoritesComponent },
+  { path: 'movies', component: NavbarComponent },
+  { path: 'user', component: NavbarComponent },
+  { path: 'favorites', component: NavbarComponent },
   { path: '', redirectTo: 'welcome', pathMatch: 'prefix' },
 ];
 
@@ -69,7 +70,11 @@ const appRoutes: Routes = [
     MatFormFieldModule,
     MatSnackBarModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    LayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

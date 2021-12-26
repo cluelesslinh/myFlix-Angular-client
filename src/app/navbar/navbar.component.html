@@ -1,38 +1,47 @@
-<div class='navbar'>
-  <div class='nav-container' style="text-align: center;" >
-    <button
-      mat-button
-      class='app-title'
-      routerLink='/movies'
-      color='warn'
-    >
-      myFlix
-    </button>
-    <div class='nav-links'>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item href="user">Profile</a>
+      <a mat-list-item href="favorites">Favorites</a>
+      <a mat-list-item href="movies">Movies</a>
       <button
-        mat-button
-        class='profile'
-        routerLink='/favorites'
-        color='warn'
-      >
-        Favorites
-      </button>
-      <button
-        mat-button
-        class='profile'
-        (click)='goToProfile()'
-        color='warn'
-      >
-        Profile
-      </button>
-      <button
-        mat-button
-        class='profile'
-        (click)='signOut()'
-        color='warn'
+        mat-raised-button
+        color="primary"
+        class="logout-btn"
+        (click)="userLogout()"
       >
         Logout
       </button>
-    </div>
-  </div>
-</div>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <img src="assets/logo.png" alt="MyFlixCL" />
+    </mat-toolbar>
+    <!-- if url contains movies show this -->
+    <app-movie-card *ngIf="router.url === '/movies'"></app-movie-card>
+    <!-- if url contains user show this-->
+    <app-user-profile *ngIf="router.url === '/user'"></app-user-profile>
+    <!-- if url contains favorites show this -->
+    <app-user-favorites
+      *ngIf="router.url === '/favorites'"
+    ></app-user-favorites>
+  </mat-sidenav-content>
+</mat-sidenav-container>

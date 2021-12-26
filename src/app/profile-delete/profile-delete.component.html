@@ -1,21 +1,23 @@
-<div>
-    <h3 mat-dialog-title>Are you sure that you want to delete your account?</h3>
-    <div mat-dialog-actions>
-      <button
-        mat-raised-button
-        color="primary"
-        aria-label="button that cancels deleting user account"
-        (click)="cancel()"
-      >
-        NO
-      </button>
-      <button
-        mat-raised-button
-        color="warn"
-        aria-label="button that proceeds to delete user account"
-        (click)="deleteUser()"
-      >
-        YES
-      </button>
-    </div>
+<div class="delete-confirmation-dialog">
+  <h3 mat-dialog-title>
+    This operation is irrevesible, do you want to continue?
+  </h3>
+  <div mat-dialog-actions>
+    <button
+      mat-raised-button
+      color="primary"
+      aria-label="button that cancels deleting user account"
+      [mat-dialog-close]="true"
+    >
+      NO
+    </button>
+    <button
+      mat-raised-button
+      color="accent"
+      aria-label="button that proceeds to delete user account"
+      (click)="deregisterUser()"
+    >
+      YES
+    </button>
   </div>
+</div>

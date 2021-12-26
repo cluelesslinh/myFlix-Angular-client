@@ -14,7 +14,6 @@ import { SynopsisCardComponent } from '../synopsis-card/synopsis-card.component'
 })
 export class MovieCardComponent implements OnInit {
   user: any = {};
-  favorites: any = [];
   movies: any[] = [];
   favMovies: any[] = this.user.FavoriteMovies;
 
@@ -54,6 +53,7 @@ export class MovieCardComponent implements OnInit {
     this.fetchApiData.getUser(username).subscribe((res:any) => {
       this.user = res;
       this.favMovies = res.FavoriteMovies;
+      console.log(this.favMovies);
       return this.favMovies;
     })
   }
@@ -76,9 +76,9 @@ export class MovieCardComponent implements OnInit {
    * @param bio (director bio)
    * @param birthYear (director birthYear)
    */
-  openDirector(name:string, bio:string, birth:number ): void {
+  openDirector(name:string, bio:string, birthDate:any, deathDate: any ): void {
     this.dialog.open(DirectorCardComponent, {
-      data: {name, bio, birth},
+      data: {name, bio, birthDate, deathDate},
       width: '500px'
     });
   }
@@ -89,9 +89,9 @@ export class MovieCardComponent implements OnInit {
    * @param imageUrl (movie image/cover)
    * @param description (movie description)
    */
-  openSynopsis(title:string, imageUrl:any, description:string): void {
+  openSynopsis(title:string, description:string): void {
     this.dialog.open(SynopsisCardComponent, {
-      data: {title, imageUrl, description},
+      data: {title, description},
       width: '500px'
     });
   }

@@ -1,56 +1,48 @@
-import { Component, OnInit } from '@angular/core';
+/**
+ * NavbarComponent view renders a side nav and toolbar to facilitate the navigation for the user
+ * @module NavbarComponent
+ */
+
+import { Component } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
-import { UserProfileComponent } from '../user-profile/user-profile.component';
-
-const username = localStorage.getItem('username')
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
+    .pipe(
+      map((result) => result.matches),
+      shareReplay()
+    );
 
+  /**
+   * All constructor items are documented as properties
+   * @ignore
+   */
   constructor(
-    public snackBar: MatSnackBar,
-    public dialog: MatDialog,
+    private breakpointObserver: BreakpointObserver,
     public router: Router,
-    ) { }
-
-  ngOnInit(): void {
-  }
+    public snackBar: MatSnackBar
+  ) {}
 
   /**
-   * opens modal with user details
+   * Signs a user out by clearing the localStorage and redirecting to the welcome page.
    */
-  movies(): void {
-    this.router.navigate(['movies']);
-  }
-
-  favorites(): void {
-    this.router.navigate(['favorites']);
-  }
-
-  /**
-   * Navigates to the profile page.
-   */
-  goToProfile(): void {
-    this.dialog.open(UserProfileComponent, {
-      width: '500px'
-    } );
-  }
-
-  /**
-   * This method will clear the token and username from local storage.
-   * Logs user out and navigates to the welcome page.
-   */
-  signOut(): void {
-    localStorage.clear;
-    this.router.navigate(['welcome']);
-    this.snackBar.open('You are logged out!', 'OK', {
-      duration: 2000
+  userLogout(): void {
+    localStorage.clear();
+    this.snackBar.open('You successfully logged out! 👋', 'Bye', {
+      duration: 2000,
+    });
+    this.router.navigate(['/welcome']).then(() => {
+      window.location.reload();
     });
   }
 }

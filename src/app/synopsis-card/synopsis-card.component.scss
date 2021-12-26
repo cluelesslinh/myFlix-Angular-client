@@ -1,19 +1,9 @@
-.container {
-  background-color: black;
-}
-
-.synopsis {
-  color: white;
+.synopsis-dialog-wrapper {
   padding: 0 20px;
-}
-
-.text {
-  color: white;
-  padding: 0 20px 20px;
-  font-size: 1rem;
-}
-
-.close {
-  color: red;
-  padding: 0 20px;
+  position: relative;
+  button {
+    position: absolute;
+    top: -35px;
+    right: -12px;
+  }
 }

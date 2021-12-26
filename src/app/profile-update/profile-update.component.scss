@@ -1,13 +1,20 @@
-.container {
-    background-color: black;
+.mat-card {
+  text-align: center;
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+  position: relative;
+  .mat-icon-button {
+    position: absolute;
+    right: -18px;
+    top: -18px;
   }
-
-  .close {
-    color: red;
-    //padding: 0 20px;
-    margin: 5px;
-  }
-
-  .card-title {
+  .mat-card-header {
     justify-content: center;
+    margin-bottom: 10px;
   }
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+}

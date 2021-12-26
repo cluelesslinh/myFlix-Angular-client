@@ -1,12 +1,7 @@
-<div class="container">
-    <button
-      mat-icon-button
-      color='dark'
-      [mat-dialog-close]='true'
-    >
+<div class="genre-dialog-wrapper">
+  <button mat-icon-button color="dark" [mat-dialog-close]="true">
     <mat-icon class="close">close</mat-icon>
-    </button>
-
-    <h1 class="genre">{{data.name}}</h1>
-    <p class="text">{{data.description}}</p>
-  </div>  
+  </button>
+  <h2>{{ data.name }}</h2>
+  <p>{{ data.description }}</p>
+</div>

@@ -20,95 +20,108 @@ import { DirectorCardComponent } from '../director-card/director-card.component'
 })
 export class UserFavoritesComponent implements OnInit {
   user: any = {};
-  favorites: any = [];
   movies: any[] = [];
   favMovies: any[] = this.user.FavoriteMovies;
 
+  /**
+   * All constructor items are documented as properties
+   * @ignore
+   */
   constructor(
     public fetchApiData: FetchApiDataService,
     public dialog: MatDialog,
     public router: Router,
-    public snackBar: MatSnackBar,
-    ) { }
+    public snackBar: MatSnackBar
+  ) {}
 
   /**
-   * to get movies and favoritemovies when being initialized
+   * Initializes the component
+   * @ignore
    */
-  ngOnInit(): void {
-    const username = localStorage.getItem("username");
-    this.getMovies();
-    if (username) {
-    this.getUsersFavs(username);
+   ngOnInit(): void {
+     const username = localStorage.getItem("username");
+     this.getMovies();
+     if (username) {
+     this.getUsersFavs(username);
+    }
    }
-  }
+
+   /**
+    * to gets all movies
+    */
+   getMovies(): void {
+     this.fetchApiData.getAllMovies().subscribe((res: any) => {
+       this.movies = res;
+       console.log(this.movies);
+       return this.movies;
+     });
+   }
 
   /**
-   * to gets all movies
+   * Opens a dialog containing info about the genre
+   * @param name the name of the genre
+   * @param description the description of the genre
    */
-  getMovies(): void {
-    this.fetchApiData.getAllMovies().subscribe((res: any) => {
-      this.movies = res;
-      console.log(this.movies);
-      return this.movies;
-    });
-  }
-
-  /**
-   * to get users favorite movies
-   */
-  getUsersFavs( username: string ): any {
-    this.fetchApiData.getUser(username).subscribe((res:any) => {
-      this.user = res;
-      this.favMovies = res.FavoriteMovies;
-      return this.favMovies;
-    })
-  }
-
-  /**
-   * opens genre modal with infos about genre
-   * @param name (genre name)
-   * @param description (genre description)
-   */
-  openGenre(name:string, description:string): void {
+  openGenre(name: string, description: string): void {
     this.dialog.open(GenreCardComponent, {
-      data: {name, description},
-      width: '500px'
+      data: { name, description },
+      width: '500px',
     });
   }
 
-   /**
-   * opens director modal with infos about director
-   * @param name (director name)
-   * @param bio (director bio)
-   * @param birthYear (director birthYear)
+  /**
+   * Opens a dialog containing info about the director
+   * @param name the name of the director
+   * @param bio the bio of the director
+   * @param birthDate bith date of the director
+   * @param deathDate death date of the director
    */
-  openDirector(name:string, bio:string, birth:number ): void {
+  openDirector(
+    name: string,
+    bio: string,
+    birthDate: any,
+    deathDate: any
+  ): void {
     this.dialog.open(DirectorCardComponent, {
-      data: {name, bio, birth},
-      width: '500px'
+      data: {
+        name,
+        bio,
+        birthDate,
+        deathDate,
+      },
+      width: '500px',
     });
   }
 
-   /**
-   * opens synopsis modal with infos about movie
-   * @param title (movie title)
-   * @param imageUrl (movie image/cover)
-   * @param description (movie description)
+  /**
+   * Opens a dialog containing info about the movie
+   * @param title the title of the movie
+   * @param description the description of the movie
    */
-  openSynopsis(title:string, imageUrl:any, description:string): void {
+  openSynopsis(
+    title: string,
+    description: string
+  ): void {
     this.dialog.open(SynopsisCardComponent, {
-      data: {title, imageUrl, description},
-      width: '500px'
+      data: {
+        title,
+        description
+      },
+      width: '500px',
     });
   }
 
-  getUserFavs( username: string ): any {
-    this.fetchApiData.getFavMovies(username).subscribe((res: any) => {
-      this.user = res;
-      this.favMovies = res.Favorites;
-      return this.favMovies;
-    });
-  }
+  /**
+   * Updates the local list of favorites by downloading it from the DB
+   */
+   getUsersFavs( username: string ): any {
+     this.fetchApiData.getUser(username).subscribe((res:any) => {
+       this.user = res;
+       this.favMovies = res.FavoriteMovies;
+       console.log(this.favMovies);
+       return this.favMovies;
+     })
+   }
 
   /**
    * Adds a movie to the user's list of favorites
@@ -119,7 +132,6 @@ export class UserFavoritesComponent implements OnInit {
     this.fetchApiData
       .addToFav(this.user.Username, movieId)
       .subscribe((res: any) => {
-        this.favMovies = res.FavoriteMovies;
         this.snackBar.open(
           `${title} has been added to your favorite movies! ✔️`,
           'Cool',
@@ -127,7 +139,7 @@ export class UserFavoritesComponent implements OnInit {
             duration: 2000,
           }
         );
-      //  this.ngOnInit();
+        //this.ngOnInit();
       });
     //return this.getUserFavs();
   }
@@ -141,7 +153,6 @@ export class UserFavoritesComponent implements OnInit {
     this.fetchApiData
       .removeFromFav(this.user.Username, movieId)
       .subscribe((res: any) => {
-        this.favMovies = res.FavoriteMovies;
         this.snackBar.open(
           `${title} has been removed from your favorite movies ✔️`,
           'Alright',
@@ -149,9 +160,9 @@ export class UserFavoritesComponent implements OnInit {
             duration: 2000,
           }
         );
-      //  this.ngOnInit();
+        //this.ngOnInit();
       });
-  //  return this.getUserFavs();
+    //return this.getUserFavs();
   }
 
   /**

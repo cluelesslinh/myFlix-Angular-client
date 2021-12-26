@@ -1,93 +1,28 @@
-<div class="container">
-  <div class="profile-container">
-      <h1 class="header-title">Profile Data</h1>
-      <div class="box1">
-        <h3>Username: {{ user.Username }}</h3>
-        <h3>Password: ********</h3>
-        <h3>Email: {{ user.Email }}</h3>
-        <h3>Birthday: {{ user.Birthday | date : 'MM/dd/yyyy' : 'UTC' }}</h3>
-      </div>
-      <mat-card-actions class="update-delete">
-        <div>
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="editUser()"
-          >
-            Update
-          </button>
-          <button
-            mat-raised-button
-            color="warn"
-            (click)="deleteUser()"
-          >
-            Delete
-          </button>
-        </div>
-      </mat-card-actions>
-  </div>
-
-  <div class="favorite-container">
-    <h1 class="header-title">Favorite Movie List</h1>
-    <div class="card-container">
-      <mat-card class="card" *ngFor='let favorite of favorites' style="flex: 1 1 auto;">
-        <mat-card-header class="card-header">
-          <mat-card-title class="card-title"><span class="title">{{favorite.Title}}</span></mat-card-title>
-          <mat-card-subtitle class="director">Directed by: {{favorite.Director.Name}}</mat-card-subtitle>
-        </mat-card-header>
-        <img src={{favorite.ImagePath}} alt={{favorite.Title}} />
-        <mat-card-actions class="card-actions">
-          <button
-            class="action fw-light"
-            mat-button
-            color="primary"
-            (click)="showGenre(
-              favorite.Genre.Name,
-              favorite.Genre.Description
-            )"
-          >
-            Genre
-          </button>
-          <button
-            class="action fw-light"
-            mat-button
-            color="primary"
-            (click)="showDirector(
-              favorite.Director.Name,
-              favorite.Director.Bio,
-              favorite.Director.Birth,
-              favorite.Director.Death
-            )"
-          >
-            Director
-          </button>
-          <button
-            class="action fw-light"
-            mat-button
-            color="primary"
-            (click)="showSynopsis(
-              favorite.Title,
-              favorite.Description,
-              favorite.Director.Name,
-              favorite.Genre.Name,
-              favorite.ReleaseYear,
-              favorite.ImdbRating,
-              favorite.Actors
-            )"
-          >
-            Synopsis
-          </button>
-          <br>
-          <br>
-          <button
-            mat-raised-button
-            class="warning"
-            color='warn'
-            (click)='removeFromFavs(favorite._id, favorite.Title)' >
-            Delete
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-  </div>
+<div class="user-profile-wrapper">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Hello, {{ user.Username }}!</h2></mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content class="card-content">
+      <p><b>Username</b>: {{ user.Username }}</p>
+      <p><b>Password: ********</b></p>
+      <p><b>Email</b>: {{ user.Email }}</p>
+      <p><b>Birth Date</b>: {{ user.BirthDate | date: "MM/dd/yyyy":"UTC" }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        class="float-right"
+        mat-raised-button
+        color="primary"
+        (click)="editUser()"
+      >
+        Edit
+      </button>
+      <button mat-raised-button color="accent" (click)="deleteUser()">
+        Delete
+      </button>
+    </mat-card-actions>
+  </mat-card>
 </div>
