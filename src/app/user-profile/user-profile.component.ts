@@ -49,10 +49,11 @@ export class UserProfileComponent implements OnInit {
    */
    getUserData(): void {
     let user = localStorage.getItem('username');
+    if (user) {
     this.fetchApiData.getUser(user).subscribe((res: any) => {
       this.user = res;
     });
-  }
+  }}
 
   /**
    * This method will get user's favorite movie array

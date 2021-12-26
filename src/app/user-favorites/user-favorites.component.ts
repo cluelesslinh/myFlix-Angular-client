@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { GenreCardComponent } from '../genre-card/genre-card.component';
 import { SynopsisCardComponent } from '../synopsis-card/synopsis-card.component';
 import { DirectorCardComponent } from '../director-card/director-card.component';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-user-favorites',
@@ -40,22 +41,28 @@ export class UserFavoritesComponent implements OnInit {
    */
    ngOnInit(): void {
      const username = localStorage.getItem("username");
-     this.getMovies();
      if (username) {
      this.getUsersFavs(username);
     }
    }
 
    /**
-    * to gets all movies
+    * Updates the local list of favorites by downloading it from the DB
     */
-   getMovies(): void {
-     this.fetchApiData.getAllMovies().subscribe((res: any) => {
-       this.movies = res;
-       console.log(this.movies);
-       return this.movies;
-     });
-   }
+    getUsersFavs( username: string ): any {
+        forkJoin([
+          this.fetchApiData.getUser(username),
+          this.fetchApiData.getAllMovies()
+        ])
+          .subscribe(([ user, movies ]) => {
+            console.log("Forked?",  user, movies);
+            this.favMovies = user.FavoriteMovies
+              .map(
+                (movieId) => movies.find((movie) => movie._id === movieId)
+              );
+          });
+      }
+
 
   /**
    * Opens a dialog containing info about the genre
@@ -110,18 +117,6 @@ export class UserFavoritesComponent implements OnInit {
       width: '500px',
     });
   }
-
-  /**
-   * Updates the local list of favorites by downloading it from the DB
-   */
-   getUsersFavs( username: string ): any {
-     this.fetchApiData.getUser(username).subscribe((res:any) => {
-       this.user = res;
-       this.favMovies = res.FavoriteMovies;
-       console.log(this.favMovies);
-       return this.favMovies;
-     })
-   }
 
   /**
    * Adds a movie to the user's list of favorites

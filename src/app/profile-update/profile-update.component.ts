@@ -37,7 +37,7 @@ export class ProfileUpdateComponent implements OnInit {
     this.fetchApiData.editUser(this.userData).subscribe((res) => {
       // Logic for successful user registration needs to be implemented here!
       this.dialogRef.close();
-      localStorage.setItem('Name', res.Name)
+      localStorage.setItem('username', res.username)
       console.log(res)
         this.snackBar.open('Successfully updated user details!', 'OK', {
         duration: 2500

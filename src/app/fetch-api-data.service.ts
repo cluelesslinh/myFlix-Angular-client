@@ -3,6 +3,35 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError, catchError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+interface User {
+  Email: string;
+  FavoriteMovies: Array<String>
+  Username: string;
+  _id: string;
+}
+
+interface Movie {
+  Description: string;
+  Director: {
+    Bio: string;
+    Birth: string;
+    ImagePath: string;
+    Name: string;
+    _id: string;
+  }
+
+  Featured: boolean;
+  Genre: {
+    Description: string;
+    ImagePath: string;
+    Name: string;
+    _id: string;
+  }
+  ImagePath: string;
+  Title: string;
+  _id: string
+}
+
 //Declaring the api url that will provide data for the client app
 const apiUrl = 'https://myflixcl.herokuapp.com/';
 @Injectable({
@@ -45,9 +74,9 @@ export class FetchApiDataService {
    * @returns array of movies
    */
   // To Get all movies
-  public getAllMovies(): Observable<any> {
+  public getAllMovies(): Observable<Array<Movie>> {
     const token = localStorage.getItem('token');
-    return this.http.get(apiUrl + 'movies', {
+    return this.http.get<Array<Movie>>(apiUrl + 'movies', {
       headers: new HttpHeaders(
         {
           Authorization: 'Bearer ' + token,
@@ -119,9 +148,9 @@ export class FetchApiDataService {
    * @returns Object - data about a user
    */
   //get a user by username
-  public getUser(username: any): Observable<any> {
+  public getUser(username: string): Observable<User> {
     const token = localStorage.getItem('token');
-    return this.http.get(apiUrl + `users/${username}`, {
+    return this.http.get<User>(apiUrl + `users/${username}`, {
       headers: new HttpHeaders(
         {
           Authorization: 'Bearer ' + token,
@@ -186,7 +215,7 @@ export class FetchApiDataService {
   // Update a user's info, by username
   public editUser(userDetails: any): Observable<any> {
     const token = localStorage.getItem('token');
-    const username = localStorage.getItem('users/:Username');
+    const username = localStorage.getItem('username');
     return this.http.put(apiUrl + `users/${username}`, userDetails, {
       headers: new HttpHeaders(
         {
@@ -256,7 +285,7 @@ export class FetchApiDataService {
    * @param error
    * @returns status of an error
    */
-  private handleError(error: HttpErrorResponse): any {
+  private handleError(error: HttpErrorResponse): Observable<never> {
     if (error.error instanceof ErrorEvent) {
       console.error('Some error occurred:', error.error.message);
     } else {
