@@ -10,7 +10,18 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./profile-update.component.scss']
 })
 export class ProfileUpdateComponent implements OnInit {
-  @Input() userData = { Username: '', Password: '', Email: '', Birthdate: '' };
+
+  user: any = localStorage.getItem('user') || '';
+
+  /**
+   * This decorator binds the form input values to the userData object
+   */
+  @Input() userData = {
+    Username: this.user.Username,
+    Password: '',
+    Email: this.user.Email,
+    Birthdate: this.user.Birthdate,
+  };
 
   /**
    *
@@ -31,24 +42,22 @@ export class ProfileUpdateComponent implements OnInit {
   }
 
   /**
-   * This method will will send input data to database and will upadate user account details
+   * Updates the info of the user, sending the data to the backend.
+   * A snack bar element is shown, containing the result of the operation
    */
   editUser(): void {
-    this.fetchApiData.editUser(this.userData).subscribe((res) => {
-      // Logic for successful user registration needs to be implemented here!
-      this.dialogRef.close();
-      localStorage.setItem('username', res.username)
-      console.log(res)
-        this.snackBar.open('Successfully updated user details!', 'OK', {
-        duration: 2500
+    this.fetchApiData
+      .editUser(this.userData)
+      .subscribe((res) => {
+        this.dialogRef.close();
+        //updating the localstorage with the updated user
+        localStorage.setItem('user', JSON.stringify(res));
+        this.snackBar.open('The profile was successfully updated! 👏', 'Nice', {
+          duration: 2000,
         });
-    }, (resp) => {
-      this.snackBar.open(resp, 'OK', {
-        duration: 2500
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       });
-      setTimeout(function () {
-        window.location.reload();
-       }, 3500);
-    });
   }
 }

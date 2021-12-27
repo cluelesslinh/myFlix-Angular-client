@@ -1,159 +1,72 @@
-import { Component, OnInit, Input} from '@angular/core';
-import { Router } from '@angular/router';
+/**
+ * UserProfileComponent view allows a user to see their profile info,
+ * provides the options to edit or delete the profile
+ * @module UserProfileComponent
+ */
+
+import { Component, OnInit } from '@angular/core';
 import { FetchApiDataService } from '../fetch-api-data.service';
-import { SynopsisCardComponent } from '../synopsis-card/synopsis-card.component';
-import { GenreCardComponent } from '../genre-card/genre-card.component';
-import { ProfileDeleteComponent } from '../profile-delete/profile-delete.component';
-import { DirectorCardComponent } from '../director-card/director-card.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { ProfileUpdateComponent } from '../profile-update/profile-update.component';
+import { ProfileDeleteComponent } from '../profile-delete/profile-delete.component';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss']
+  styleUrls: ['./user-profile.component.scss'],
 })
-
 export class UserProfileComponent implements OnInit {
-  @Input() userData = { Username: '', Password: '', Email: '', Birthday: '' };
-
   user: any = {};
-  movies: any = {};
-  favorites: any = {};
+  favMovies: any = {};
 
   /**
-   *
-   * @param fetchApiData
-   * @param dialog
-   * @param snackBar
+   * All constructor items are documented as properties
+   * @ignore
    */
   constructor(
     public fetchApiData: FetchApiDataService,
     public snackBar: MatSnackBar,
     public dialog: MatDialog,
-    public router: Router,
-  ) { }
+    public router: Router
+  ) {}
 
- /**
-   * ngOnInit() is a place to put the code that we need to execute at very first as soon as the class is instantiated
-   * This method will run the getUser method after the User Profile Component is initialised and rendered.
-   * @returns User object.
+  /**
+   * Initializes the component
+   * @ignore
    */
   ngOnInit(): void {
     this.getUserData();
   }
 
   /**
-   * This method will get user details and array of user's favorite movies
+   * Fetches the user info from localStorage if present, otherwise it
+   * fetches them from the backend
    */
-   getUserData(): void {
-    let user = localStorage.getItem('username');
-    if (user) {
-    this.fetchApiData.getUser(user).subscribe((res: any) => {
+  getUserData(): void {
+    const username = localStorage.getItem('username') || '';
+    this.fetchApiData.getUser(username).subscribe((res: any) => {
       this.user = res;
     });
-  }}
-
-  /**
-   * This method will get user's favorite movie array
-   */
-  getMovies(): void {
-    this.fetchApiData.getAllMovies().subscribe((resp: any) => {
-      this.movies = resp;
-      this.filterFavorites();
-      console.log(this.user);
-    });
   }
 
   /**
-   * This method filters user's movies
-   * @returns favorite movies
-   */
-  filterFavorites(): void {
-    this.movies.forEach((movie: any) => {
-      if (this.user.FavoriteMovies.includes(movie._id)) {
-        this.favorites.push(movie);
-      }
-    });
-    return this.favorites;
-  }
-
-
-  /**
-   * This method will delete a movie from user's favorite movies
-   * @param id
-   * @param title
-   */
-  removeFromFavs(id: string, title: string): void {
-    this.fetchApiData.removeFromFav(id, title).subscribe((resp: any) => {
-      this.snackBar.open(`${title} has been removed successfully!`, 'OK', {
-        duration: 2000
-      });
-      setTimeout(function () {
-        window.location.reload();
-      }, 2000);
-    });
-  }
-
-  /**
-   * This method will update user's profile data
-   */
-  editUser(): void {
-    const dialogRef = this.dialog.open(ProfileUpdateComponent, {
-      width: '280px'
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      this.getUserData();
-    });
-  }
-
-  /**
-   * Deletes user's account
+   * Opens a dialog asking the user if they want to proceed with the user deregistration
    */
   deleteUser(): void {
     this.dialog.open(ProfileDeleteComponent, {
-      width: '280px'
+      width: '400px',
+      panelClass: 'delete-user-dialog',
     });
   }
 
   /**
-   * Opens modal with movie genre information
-   * @param name
-   * @param description
+   * Opens a dialog holding a form to edit the user's info
    */
-  showGenre(name: string, description: string): void {
-    this.dialog.open(GenreCardComponent, {
-      data: { name, description },
-    });
-  }
-
-  /**
-   * Opens modal with movie director information
-   * @param name
-   * @param bio
-   * @param birth
-   * @param death
-   */
-  showDirector(name: string, bio: string, birth: number, death: number): void {
-    this.dialog.open(DirectorCardComponent, {
-      data: { name, bio, birth, death },
-    });
-  }
-
-  /**
-   * Opens modal with movie synopsis
-   * @param title
-   * @param description
-   * @param director
-   * @param genre
-   * @param releaseYear
-   * @param imdbRating
-   * @param actors
-   */
-  showSynopsis(title: string, description: string, director: string, genre: string, releaseYear: number, imdbRating: number, actors: string): void {
-    this.dialog.open(SynopsisCardComponent, {
-      data: { title, description, director, genre, releaseYear, imdbRating, actors },
+  editUser(): void {
+    this.dialog.open(ProfileUpdateComponent, {
+      width: '300px',
     });
   }
 }
