@@ -5,8 +5,8 @@
   <h2>{{ data.name }}</h2>
   <h3>Biography</h3>
   <p>{{ data.bio }}</p>
-  <p><b>Birth Date: </b>{{ data.birthDate | date: "MM/dd/yyyy":"UTC" }}</p>
+  <p><b>Birth Date: </b>{{ data.birthDate }}</p>
   <p *ngIf="data.deathDate">
-    <b>Death Date: </b>{{ data.deathDate | date: "MM/dd/yyyy":"UTC" }}
+    <b>Death Date: </b>{{ data.deathDate }}
   </p>
 </div>

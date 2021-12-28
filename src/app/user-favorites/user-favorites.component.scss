@@ -32,6 +32,7 @@ app-user-favorites {
   position: relative;
   padding: 40px;
   background-color: #27273f;
+  color: white;
   max-width: 300px;
   width: 300px;
   .mat-icon-button {
@@ -44,6 +45,9 @@ app-user-favorites {
   }
   .mat-card-header {
     text-align: center;
+  }
+  .mat-card-subtitle {
+    color: white;
   }
   .mat-card-actions {
     display: flex;

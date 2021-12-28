@@ -157,7 +157,7 @@ export class UserFavoritesComponent implements OnInit {
         );
         //this.ngOnInit();
       });
-    //return this.getUserFavs();
+    //return this.getUsersFavs(this.user.Username);
   }
 
   /**
@@ -166,7 +166,7 @@ export class UserFavoritesComponent implements OnInit {
    * @returns true if the movie is in the list of favorites, false otherwhise
    */
   isFav(movieId: string): boolean {
-    return this.favMovies.some((m) => m === movieId);
+    return this.favMovies.some((movie) => movie._id === movieId);
   }
 
   /**

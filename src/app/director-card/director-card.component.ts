@@ -20,7 +20,7 @@ export class DirectorCardComponent implements OnInit {
     public data: {
       name: string;
       bio: string;
-      birthDate: number;
+      birthDate: any;
       deathDate: any;
     }
   ) {}

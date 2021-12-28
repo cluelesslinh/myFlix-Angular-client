@@ -34,6 +34,7 @@ interface Movie {
 
 //Declaring the api url that will provide data for the client app
 const apiUrl = 'https://myflixcl.herokuapp.com/';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -41,6 +42,7 @@ export class FetchApiDataService {
   // Inject the HttpClient module to the constructor params
  // This will provide HttpClient to the entire class, making it available via this.http
   constructor(private http: HttpClient) {
+    this.http = http;
   }
 
   /**
@@ -111,14 +113,17 @@ export class FetchApiDataService {
    * @returns Object - data about the director of a movie
    */
   //Return a single director by name to user
-  public getDirector(): Observable<any> {
+  public getDirectors(director: any): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.get(apiUrl + `directors/:director`, {
-      headers: new HttpHeaders(
-        {
+    const response = this.http.get(
+      apiUrl + `directors/${director}`,
+      {
+        headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
-        })
-    }).pipe(
+        }),
+      }
+    );
+    return response.pipe(
       map(this.extractResponseData),
       catchError(this.handleError)
     );
@@ -129,7 +134,7 @@ export class FetchApiDataService {
    * @returns Object - data about genre of a movie
    */
   //return a single genre by name to user
-  public getGenre(genre: any): Observable<any> {
+  public getGenre(): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + `genres/:name`, {
       headers: new HttpHeaders(
