@@ -5,7 +5,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FetchApiDataService } from '../fetch-api-data.service';
+import { FetchApiDataService, Movie, User } from '../fetch-api-data.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -20,8 +20,8 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./user-favorites.component.scss'],
 })
 export class UserFavoritesComponent implements OnInit {
-  user: any = {};
-  favMovies: any[] = this.user.FavoriteMovies;
+  movies: Movie[] = [];
+  favMovies: any[] = [];
 
   /**
    * All constructor items are documented as properties
@@ -56,32 +56,19 @@ export class UserFavoritesComponent implements OnInit {
       ])
         .subscribe(([ user, movies ]) => {
           this.favMovies = user.FavoriteMovies
-            .map(
-              (movieId) => movies.find((movie) => movie._id === movieId)
+            .reduce(
+              (favMovies: Movie[], movieId: String) => {
+                const movie = movies.find((movie) => movie._id === movieId);
+
+                if(movie) {
+                  favMovies.push(movie);
+                }
+                return favMovies;
+               },
+              []
             );
         });
       }
-
-     /**
-     * Adds a movie to the user's list of favorites
-     * @param movieId the id of the movie
-     * @param title the title of the movie
-     */
-    addToFavs(movieId: string, title: string): void {
-      this.fetchApiData
-        .addToFav(this.user.Username, movieId)
-        .subscribe(( res: any ) => {
-          this.snackBar.open(
-            `${title} has been added to your favorite movies! ✔️`,
-            'Cool',
-            {
-              duration: 2000,
-            }
-          );
-          //this.ngOnInit();
-        });
-      //return this.getUsersFavs();
-    }
 
       /**
        * Removes a movie from the user's list of favorites
@@ -89,9 +76,24 @@ export class UserFavoritesComponent implements OnInit {
        * @param title the title of the movie
        */
      removeFromFavs(movieId: string, title: string): void {
+       const username = localStorage.getItem('username');
+       if(username)
        this.fetchApiData
-         .removeFromFav(this.user.Username, movieId)
-         .subscribe((res: any) => {
+         .removeFromFav(username, movieId)
+         .subscribe((user: User) => {
+           this.favMovies = user.FavoriteMovies
+           .reduce(
+             (favMovies: Movie[], movieId: String) => {
+               const movie = this.movies.find((movie) => movie._id === movieId);
+
+               if(movie) {
+                 favMovies.push(movie);
+               }
+               return favMovies;
+              },
+             []
+           );
+           console.log("remove from favs", user.FavoriteMovies, this.favMovies)
            this.snackBar.open(
              `${title} has been removed from your favorite movies ✔️`,
              'Alright',
@@ -165,17 +167,5 @@ export class UserFavoritesComponent implements OnInit {
      */
     isFav(movieId: string): boolean {
       return this.favMovies.some((movie) => movie._id === movieId);
-    }
-
-    /**
-     * Toggles the heart shaped icon from full to empty, and invokes the method to add or
-     * remove a function from the user's list of favorites
-     * @function toggleFavs
-     * @param movie the movie to add/remove to/from favs
-     */
-    toggleFavs(movie: any): void {
-      this.isFav(movie._id)
-        ? this.removeFromFavs(movie._id, movie.Title)
-        : this.addToFavs(movie._id, movie.Title);
     }
   }

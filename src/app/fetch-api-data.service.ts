@@ -3,18 +3,19 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError, catchError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-interface User {
+export interface User {
   Email: string;
   FavoriteMovies: Array<String>
   Username: string;
   _id: string;
 }
 
-interface Movie {
+export interface Movie {
   Description: string;
   Director: {
     Bio: string;
     Birth: string;
+    Death: string;
     ImagePath: string;
     Name: string;
     _id: string;
@@ -195,10 +196,10 @@ export class FetchApiDataService {
    * @param movieId the id of the movie we want to add to the favorites
    * @returns an Observable containing a response
    */
-  public addToFav(username: string, movieId: string): Observable<any> {
+  public addToFav(username: string, movieId: string): Observable<User> {
     const token = localStorage.getItem('token');
     const response = this.http
-      .post(
+      .post<User>(
         apiUrl + `users/${username}/movies/${movieId}`,
         {},
         {
@@ -256,9 +257,9 @@ export class FetchApiDataService {
    * @param movieId the id of the movie we want to remove from favorites
    * @returns an Observable containing a response
    */
-  public removeFromFav(username: string, movieId: string): Observable<any> {
+  public removeFromFav(username: string, movieId: string): Observable<User> {
     const token = localStorage.getItem('token');
-    const response = this.http.delete(
+    const response = this.http.delete<User>(
       apiUrl + `users/${username}/movies/${movieId}`,
       {
         headers: new HttpHeaders({
