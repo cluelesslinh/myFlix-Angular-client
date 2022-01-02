@@ -55,6 +55,7 @@ export class UserFavoritesComponent implements OnInit {
         this.fetchApiData.getAllMovies()
       ])
         .subscribe(([ user, movies ]) => {
+          this.movies = movies;
           this.favMovies = user.FavoriteMovies
             .reduce(
               (favMovies: Movie[], movieId: String) => {
