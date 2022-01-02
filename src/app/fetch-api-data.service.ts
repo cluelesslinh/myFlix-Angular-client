@@ -208,7 +208,6 @@ export class FetchApiDataService {
         }
       )
       .pipe(map(this.extractResponseData), catchError(this.handleError));
-
     return response;
   }
 
@@ -272,7 +271,6 @@ export class FetchApiDataService {
       catchError(this.handleError)
     );
   }
-
 
   /**
    * Non-typed response extraction

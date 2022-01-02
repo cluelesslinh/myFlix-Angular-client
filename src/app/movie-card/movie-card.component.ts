@@ -53,9 +53,8 @@ export class MovieCardComponent implements OnInit {
     this.fetchApiData.getUser(username).subscribe((res:any) => {
       this.user = res;
       this.favMovies = res.FavoriteMovies;
-      console.log(this.favMovies);
       return this.favMovies;
-    })
+    });
   }
 
   /**
@@ -93,14 +92,6 @@ export class MovieCardComponent implements OnInit {
     this.dialog.open(SynopsisCardComponent, {
       data: {title, description},
       width: '500px'
-    });
-  }
-
-  getUserFavs( username: string ): any {
-    this.fetchApiData.getFavMovies(username).subscribe((res: any) => {
-      this.user = res;
-      this.favMovies = res.Favorites;
-      return this.favMovies;
     });
   }
 

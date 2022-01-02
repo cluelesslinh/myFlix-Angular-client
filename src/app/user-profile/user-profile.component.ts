@@ -19,7 +19,6 @@ import { ProfileDeleteComponent } from '../profile-delete/profile-delete.compone
 })
 export class UserProfileComponent implements OnInit {
   user: any = {};
-  favMovies: any = {};
 
   /**
    * All constructor items are documented as properties
