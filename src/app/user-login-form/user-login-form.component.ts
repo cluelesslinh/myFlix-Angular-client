@@ -1,3 +1,7 @@
+/**
+ * LoginFormComponent view allows a user to login into the app
+ * @module LoginFormComponent
+ */
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -22,6 +26,10 @@ export class UserLoginFormComponent implements OnInit {
     public snackBar: MatSnackBar,
     public router: Router,) { }
 
+    /**
+     * Initializes the component
+     * @ignore
+     */
   ngOnInit(): void {
   }
 
@@ -37,7 +45,7 @@ export class UserLoginFormComponent implements OnInit {
   // Store current user and token in localStorage.
       localStorage.setItem('username', result.user.Username);
       localStorage.setItem('token', result.token);
-      // Logic for a successful user registration
+  // Logic for a successful user registration
       this.dialogRef.close(); // This will close the modal on success!
       console.log(result);
       this.snackBar.open('user logged in successfully!', 'OK', {

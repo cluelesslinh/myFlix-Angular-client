@@ -1,3 +1,9 @@
+/**
+ * MovieCardComponent view holds informations about a movie, such as title, poster image, director, genre and synopsis.
+ * It allosw a user to like a movie by clicking on the heart shaped icon.
+ * @module MovieCardComponent
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -58,9 +64,9 @@ export class MovieCardComponent implements OnInit {
   }
 
   /**
-   * opens genre modal with infos about genre
-   * @param name (genre name)
-   * @param description (genre description)
+   * Opens a dialog containing info about the genre
+   * @param name the name of the genre
+   * @param description the description of the genre
    */
   openGenre(name:string, description:string): void {
     this.dialog.open(GenreCardComponent, {
@@ -69,11 +75,12 @@ export class MovieCardComponent implements OnInit {
     });
   }
 
-   /**
-   * opens director modal with infos about director
-   * @param name (director name)
-   * @param bio (director bio)
-   * @param birthYear (director birthYear)
+  /**
+   * Opens a dialog containing info about the director
+   * @param name the name of the director
+   * @param bio the bio of the director
+   * @param birthDate bith date of the director
+   * @param deathDate death date of the director
    */
   openDirector(name:string, bio:string, birthDate:any, deathDate: any ): void {
     this.dialog.open(DirectorCardComponent, {
@@ -82,11 +89,10 @@ export class MovieCardComponent implements OnInit {
     });
   }
 
-   /**
-   * opens synopsis modal with infos about movie
-   * @param title (movie title)
-   * @param imageUrl (movie image/cover)
-   * @param description (movie description)
+  /**
+   * Opens a dialog containing info about the movie
+   * @param title the title of the movie
+   * @param description the description of the movie
    */
   openSynopsis(title:string, description:string): void {
     this.dialog.open(SynopsisCardComponent, {
@@ -134,10 +140,8 @@ export class MovieCardComponent implements OnInit {
             duration: 2000,
           }
         );
-      //  this.ngOnInit();
       });
-  //  return this.getUserFavs();
-  }
+    }
 
   /**
    * Checks if a movie is included in the user's list of favorites
