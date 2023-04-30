@@ -34,14 +34,14 @@ export interface Movie {
 }
 
 //Declaring the api url that will provide data for the client app
-const apiUrl = 'https://myflixcl.herokuapp.com/';
+const apiUrl = 'https://movie-c2wizxl9w-cluelesslinh.vercel.app/';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FetchApiDataService {
   // Inject the HttpClient module to the constructor params
- // This will provide HttpClient to the entire class, making it available via this.http
+  // This will provide HttpClient to the entire class, making it available via this.http
   constructor(private http: HttpClient) {
     this.http = http;
   }
@@ -51,11 +51,11 @@ export class FetchApiDataService {
    * @param userDetails
    * @returns status message: success/error
    */
- // Making the api call for the user registration endpoint
+  // Making the api call for the user registration endpoint
   public userRegistration(userDetails: any): Observable<any> {
     console.log(userDetails);
     return this.http.post(apiUrl + 'users/', userDetails).pipe(
-    catchError(this.handleError)
+      catchError(this.handleError)
     );
   }
 
@@ -167,11 +167,11 @@ export class FetchApiDataService {
     );
   }
 
-   /**
-   * Makes an API call to get the list of favorite movies
-   * @param username
-   * @returns a list (array) of favorite movies
-   */
+  /**
+  * Makes an API call to get the list of favorite movies
+  * @param username
+  * @returns a list (array) of favorite movies
+  */
   // get list of favorite movies
 
   public getFavMovies(username: string): Observable<any> {
