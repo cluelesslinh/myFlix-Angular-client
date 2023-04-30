@@ -34,7 +34,7 @@ export interface Movie {
 }
 
 //Declaring the api url that will provide data for the client app
-const apiUrl = 'https://movie-c2wizxl9w-cluelesslinh.vercel.app/';
+const apiUrl = 'https://movie-app-sandy-psi.vercel.app/';
 
 @Injectable({
   providedIn: 'root'
